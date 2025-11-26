@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/calluna" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #F8F8FA;
+            --text: #1a1a1a;
+            --accent: #0066ff;
+            --subtle: #666;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Calluna', 'Inter', 'Times New Roman', serif;
+            line-height: 1.65;
+            font-size: 16px;
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 720px;
+            margin-left: 40px;
+            padding: 12vh 5vw 10vh 0;
+            min-height: 100vh;
+        }
+
+        .intro {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            line-height: 1.2;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2vh;
+            opacity: 0;
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+        }
+
+        .intro .highlight {
+            color: var(--text);
+        }
+
+        .main-content {
+            opacity: 0;
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+        }
+
+        .main-content p {
+            margin-bottom: 0;
+            font-size: 18px;
+        }
+
+        .main-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .main-content em {
+            font-style: normal;
+            color: var(--subtle);
+            font-size: 17px;
+        }
+
+        .keyword {
+            text-decoration: underline;
+            text-decoration-color: #5245E5;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            border-radius: 3px;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .reveal-text {
+            display: inline;
+        }
+
+        .portfolio-link {
+            color: #5245E5;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .portfolio-link:hover,
+        .portfolio-link:active {
+            opacity: 0.8;
+        }
+
+        .keyword.nested {
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .keyword.nested.enabled {
+            pointer-events: auto;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .keyword:hover {
+            color: #5245E5;
+        }
+
+        .keyword:active {
+            transform: scale(0.98);
+        }
+
+        .keyword.active {
+            background: linear-gradient(90deg, #5245E5 0%, #5245E5 100%);
+            background-size: 0% 100%;
+            background-repeat: no-repeat;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 1px 3px;
+            animation: highlight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            transition: color 0.3s ease 0.3s;
+        }
+
+        @keyframes highlight {
+            from {
+                background-size: 0% 100%;
+            }
+            to {
+                background-size: 100% 100%;
+            }
+        }
+
+        @keyframes dehighlight {
+            from {
+                background-size: 100% 100%;
+                background-color: #5245E5;
+                color: #ffffff;
+            }
+            to {
+                background-size: 0% 100%;
+                background-color: transparent;
+                color: #1a1a1a;
+            }
+        }
+
+        .reveal-content {
+            display: none;
+            opacity: 0;
+        }
+
+        .reveal-content.show {
+            display: inline;
+            color: #8E8E8E;
+            transition: color 0.4s ease;
+        }
+
+        .reveal-content.show.expanded {
+            opacity: 1;
+        }
+
+        .reveal-content.show.just-revealed {
+            color: #8E8E8E;
+        }
+
+        .reveal-content.show:not(.just-revealed) {
+            color: #1a1a1a;
+        }
+
+        @keyframes fadeInContent {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                margin-left: 40px;
+                padding: 8vh 40px 8vh 0;
+            }
+
+            .intro {
+                font-size: 22px;
+                margin-bottom: 2vh;
+            }
+
+            .main-content p {
+                font-size: 16px;
+            }
+
+            .main-content em {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin-left: 20px;
+                padding: 8vh 20px 8vh 0;
+            }
+
+            .intro {
+                font-size: 20px;
+            }
+
+            .main-content p {
+                font-size: 15px;
+            }
+        }
+
+        /* Custom selection */
+        ::selection {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="intro">
+            <span class="highlight">Charmayne Lim</span>
+        </h1>
+        
+        <div class="main-content">
+            <p>
+                is a <span class="keyword" data-reveal="growth">growth marketer</span> & <span class="keyword" data-reveal="designer">founding designer</span> with 0 to 1 experience in GTM and product.<span class="reveal-content" id="reveal-growth"><span class="reveal-text"> Skilled in </span><span class="keyword nested" data-reveal="positioning">positioning & messaging</span><span class="reveal-text">, growth experimentation, engagement & lifecycle marketing, and </span><span class="keyword nested" data-reveal="comms">strategic comms</span><span class="reveal-text">.</span><span class="reveal-content" id="reveal-positioning"><span class="reveal-text"> Built positioning from first-principles, blending </span><a href="https://www.aprildunford.com/post/a-quickstart-guide-to-positioning" target="_blank" rel="noopener noreferrer" class="portfolio-link">April Dunford</a><span class="reveal-text">'s approach with JTBD. Facilitated workshops to define messaging and brand guidelines.</span></span><span class="reveal-content" id="reveal-comms"><span class="reveal-text"> Startup land is wild: managed user comms and averted trouble in the heat of a developing PR crisis not once, but twice. Shaped and organised media releases for key launches and company announcements.</span></span><span class="reveal-text"> Built and scaled many </span><span class="keyword nested" data-reveal="processes">processes</span><span class="reveal-text">.</span><span class="reveal-content" id="reveal-processes"><span class="reveal-text"> Developed core operational systems, including launch tier frameworks and automated Slack alerts that powered hundreds of campaigns.</span></span><span class="reveal-text"> Also did the </span><span class="keyword nested" data-reveal="content">content marketing</span><span class="reveal-text"> and guerrilla thing.</span><span class="reveal-content" id="reveal-content"><span class="reveal-text"> Built content marketing strategy from scratch, launching the HeyMax blog as a new channel for user education and SEO growth.</span></span></span><span class="reveal-content" id="reveal-designer"><span class="reveal-text"> As product designer, drove research and product discovery; built and shipped product at high speed. Designed quite literally everything. </span><a href="https://www.figma.com/deck/NbTbXcKP1VoNmvmZJpVQbE/quick-portfolio---charmayne?node-id=3-29264&t=EdC2masF0tGjbY24-1" target="_blank" rel="noopener noreferrer" class="portfolio-link">Snapshot of work here.</a></span> Employee #4 at HeyMax who helped scale from pre-seed to Series A. Building <span class="keyword" data-reveal="edges">at the edges</span>.<span class="reveal-content" id="reveal-edges"><span class="reveal-text"> Works in an inclusive, multidisciplinary way. Believes systems sit closer together than we think, and the most interesting work happens at the edges where disciplines meet.</span></span> Based in Singapore but rarely stays put.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let revealTimeouts = {};
+            let typingIntervals = {};
+            
+            // Store original HTML content for each reveal section
+            const originalHTML = {};
+            document.querySelectorAll('.reveal-content').forEach(el => {
+                originalHTML[el.id] = el.innerHTML;
+            });
+            
+            function getImmediateTextNodes(element) {
+                // Get only the immediate reveal-text children, not nested ones
+                const textSpans = [];
+                for (let child of element.children) {
+                    if (child.classList.contains('reveal-text')) {
+                        textSpans.push(child);
+                    } else if (child.classList.contains('keyword')) {
+                        textSpans.push(child);
+                    } else if (child.classList.contains('reveal-content')) {
+                        // Skip nested reveal-content
+                        break;
+                    }
+                }
+                return textSpans;
+            }
+            
+            function typeRevealContent(revealElement, callback) {
+                // Get fresh children array
+                const children = Array.from(revealElement.children);
+                const nestedKeywords = revealElement.querySelectorAll(':scope > .keyword.nested');
+                
+                // Hide nested keywords initially
+                nestedKeywords.forEach(kw => {
+                    kw.setAttribute('data-original-text', kw.textContent);
+                    kw.textContent = '';
+                    kw.style.opacity = '1';
+                    kw.style.visibility = 'visible';
+                });
+                
+                // Categorize links: inline (within text) vs end (after all text)
+                const nonTextElements = [];
+                children.forEach((child, index) => {
+                    if (child.tagName === 'A') {
+                        // Check if there's any reveal-text after this link
+                        let hasTextAfter = false;
+                        for (let i = index + 1; i < children.length; i++) {
+                            if (children[i].classList && children[i].classList.contains('reveal-text')) {
+                                hasTextAfter = true;
+                                break;
+                            }
+                        }
+                        
+                        // Hide all links initially
+                        child.style.opacity = '0';
+                        child.style.visibility = 'hidden';
+                        
+                        // End links will be shown after typing completes
+                        if (!hasTextAfter) {
+                            nonTextElements.push(child);
+                        }
+                        // Inline links will be shown when we reach them during typing
+                    }
+                });
+                
+                // Set opacity to make content visible as we type
+                revealElement.style.opacity = '1';
+                
+                let currentIndex = 0;
+                let charIndex = 0;
+                let currentElement = null;
+                let originalText = '';
+                let textSpanCounter = 0;
+                let isTypingKeyword = false;
+                
+                // Get original text for all reveal-text spans from stored HTML
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = originalHTML[revealElement.id];
+                
+                // Get only immediate reveal-text children (not nested ones)
+                const originalTextSpans = [];
+                for (let child of tempDiv.children) {
+                    if (child.classList && child.classList.contains('reveal-text')) {
+                        originalTextSpans.push(child);
+                    }
+                }
+                
+                // Clear all text content first
+                children.forEach(child => {
+                    if (child.classList && child.classList.contains('reveal-text')) {
+                        child.textContent = '';
+                    }
+                });
+                
+                function typeNextChar() {
+                    // Find next element to type
+                    while (currentIndex < children.length) {
+                        const child = children[currentIndex];
+                        
+                        if (!child.classList && child.tagName !== 'A') {
+                            currentIndex++;
+                            continue;
+                        }
+                        
+                        // Skip nested reveal-content elements but continue after them
+                        if (child.classList && child.classList.contains('reveal-content')) {
+                            currentIndex++;
+                            continue;
+                        }
+                        
+                        // Handle links - show them immediately when we reach them
+                        if (child.tagName === 'A') {
+                            child.style.visibility = 'visible';
+                            child.style.opacity = '';
+                            currentIndex++;
+                            continue;
+                        }
+                        
+                        if (child.classList.contains('reveal-text')) {
+                            if (!currentElement) {
+                                currentElement = child;
+                                originalText = originalTextSpans[textSpanCounter] ? originalTextSpans[textSpanCounter].textContent : '';
+                                textSpanCounter++;
+                                isTypingKeyword = false;
+                            }
+                            
+                            if (charIndex < originalText.length) {
+                                currentElement.textContent += originalText[charIndex];
+                                charIndex++;
+                                return;
+                            } else {
+                                currentElement = null;
+                                charIndex = 0;
+                                currentIndex++;
+                            }
+                        } else if (child.classList.contains('keyword')) {
+                            if (!currentElement) {
+                                currentElement = child;
+                                originalText = child.getAttribute('data-original-text') || '';
+                                isTypingKeyword = true;
+                            }
+                            
+                            if (charIndex < originalText.length) {
+                                currentElement.textContent += originalText[charIndex];
+                                charIndex++;
+                                return;
+                            } else {
+                                // Keyword typing complete
+                                currentElement = null;
+                                charIndex = 0;
+                                isTypingKeyword = false;
+                                currentIndex++;
+                            }
+                        } else {
+                            currentIndex++;
+                        }
+                    }
+                    
+                    // Done typing - clear interval first, then show all hidden elements
+                    clearInterval(interval);
+                    
+                    // Enable nested keywords for clicking
+                    nestedKeywords.forEach(kw => {
+                        kw.classList.add('enabled');
+                    });
+                    
+                    // Show non-text elements (like links)
+                    nonTextElements.forEach(elem => {
+                        elem.style.visibility = 'visible';
+                        elem.style.opacity = '';
+                    });
+                    
+                    if (callback) callback();
+                }
+                
+                // Calculate typing speed based on total characters
+                let totalChars = 0;
+                originalTextSpans.forEach(span => {
+                    totalChars += span.textContent.length;
+                });
+                // Add nested keyword characters
+                nestedKeywords.forEach(kw => {
+                    const text = kw.getAttribute('data-original-text');
+                    if (text) totalChars += text.length;
+                });
+                
+                if (totalChars === 0) {
+                    // No text to type, just call callback
+                    if (callback) callback();
+                    return null;
+                }
+                
+                const interval = setInterval(typeNextChar, 800 / totalChars);
+                return interval;
+            }
+            
+            function untypeRevealContent(revealElement, callback) {
+                // Get all immediate children to untype (both text spans and keywords)
+                const elementsToUntype = [];
+                for (let child of revealElement.children) {
+                    if (child.classList && (child.classList.contains('reveal-text') || child.classList.contains('keyword'))) {
+                        elementsToUntype.push(child);
+                    }
+                }
+                
+                if (elementsToUntype.length === 0) {
+                    if (callback) callback();
+                    return null;
+                }
+                
+                let elementIndex = elementsToUntype.length - 1;
+                let totalChars = 0;
+                elementsToUntype.forEach(elem => {
+                    totalChars += elem.textContent.length;
+                });
+                
+                function untypeNextChar() {
+                    if (elementIndex < 0) {
+                        clearInterval(interval);
+                        if (callback) callback();
+                        return;
+                    }
+                    
+                    const elem = elementsToUntype[elementIndex];
+                    const currentText = elem.textContent;
+                    
+                    if (currentText.length > 0) {
+                        elem.textContent = currentText.substring(0, currentText.length - 1);
+                    } else {
+                        elementIndex--;
+                    }
+                }
+                
+                const interval = setInterval(untypeNextChar, 800 / Math.max(totalChars, 1));
+                return interval;
+            }
+            
+            function enableNestedKeywords(parentElement) {
+                parentElement.querySelectorAll(':scope > .keyword.nested').forEach(nested => {
+                    nested.classList.add('enabled');
+                });
+            }
+            
+            function disableNestedKeywords(parentElement) {
+                parentElement.querySelectorAll(':scope > .keyword.nested').forEach(nested => {
+                    nested.classList.remove('enabled');
+                });
+            }
+            
+            function collapseNestedContent(parentElement) {
+                parentElement.querySelectorAll('.reveal-content').forEach(nestedContent => {
+                    if (nestedContent.classList.contains('show')) {
+                        const nestedKeyword = document.querySelector(`[data-reveal="${nestedContent.id.replace('reveal-', '')}"]`);
+                        if (nestedKeyword) {
+                            nestedKeyword.classList.remove('active', 'enabled');
+                            nestedKeyword.removeAttribute('style');
+                        }
+                        
+                        if (typingIntervals[nestedContent.id]) {
+                            clearInterval(typingIntervals[nestedContent.id]);
+                            delete typingIntervals[nestedContent.id];
+                        }
+                        
+                        if (revealTimeouts[nestedContent.id]) {
+                            clearTimeout(revealTimeouts[nestedContent.id]);
+                            delete revealTimeouts[nestedContent.id];
+                        }
+                        
+                        nestedContent.classList.remove('show', 'just-revealed', 'expanded');
+                        nestedContent.innerHTML = originalHTML[nestedContent.id];
+                        nestedContent.removeAttribute('style');
+                    }
+                });
+            }
+            
+            // Attach event listeners using event delegation
+            document.addEventListener('click', function(e) {
+                const keyword = e.target.closest('.keyword');
+                if (!keyword) return;
+                
+                e.stopPropagation();
+                
+                const revealId = keyword.getAttribute('data-reveal');
+                const fullRevealId = 'reveal-' + revealId;
+                const revealContent = document.getElementById(fullRevealId);
+                
+                if (!revealContent) return;
+                
+                // Always clear any existing interval first
+                if (typingIntervals[fullRevealId]) {
+                    clearInterval(typingIntervals[fullRevealId]);
+                    delete typingIntervals[fullRevealId];
+                }
+                
+                // Always clear any existing timeout
+                if (revealTimeouts[fullRevealId]) {
+                    clearTimeout(revealTimeouts[fullRevealId]);
+                    delete revealTimeouts[fullRevealId];
+                }
+                
+                const isActive = keyword.classList.contains('active');
+                
+                if (isActive) {
+                    // Collapsing
+                    keyword.style.animation = 'dehighlight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                    
+                    // First collapse any nested content
+                    collapseNestedContent(revealContent);
+                    disableNestedKeywords(revealContent);
+                    
+                    // Then untype this content
+                    typingIntervals[fullRevealId] = untypeRevealContent(revealContent, () => {
+                        // Remove active state
+                        keyword.classList.remove('active');
+                        keyword.style.animation = '';
+                        
+                        // Remove all state classes
+                        revealContent.classList.remove('show', 'just-revealed', 'expanded');
+                        
+                        // Restore original HTML
+                        revealContent.innerHTML = originalHTML[fullRevealId];
+                        
+                        // Remove all inline styles to return to CSS defaults
+                        revealContent.removeAttribute('style');
+                        
+                        // Clear interval
+                        if (typingIntervals[fullRevealId]) {
+                            clearInterval(typingIntervals[fullRevealId]);
+                            delete typingIntervals[fullRevealId];
+                        }
+                    });
+                } else {
+                    // Expanding
+                    keyword.classList.add('active');
+                    revealContent.classList.add('show', 'just-revealed');
+                    
+                    typingIntervals[fullRevealId] = typeRevealContent(revealContent, () => {
+                        revealContent.classList.add('expanded');
+                        enableNestedKeywords(revealContent);
+                        
+                        // Clear interval
+                        if (typingIntervals[fullRevealId]) {
+                            clearInterval(typingIntervals[fullRevealId]);
+                            delete typingIntervals[fullRevealId];
+                        }
+                    });
+                    
+                    revealTimeouts[fullRevealId] = setTimeout(() => {
+                        revealContent.classList.remove('just-revealed');
+                        delete revealTimeouts[fullRevealId];
+                    }, 3500);
+                }
+            });
+        });
+    </script></body>
+</html>
